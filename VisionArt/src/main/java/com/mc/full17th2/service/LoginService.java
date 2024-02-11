@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mc.full17th2.dao.MemberDAO;
 import com.mc.full17th2.dto.LoginDTO;
+import com.mc.full17th2.dto.LoginResultDTO;
 
 @Service
 public class LoginService {
@@ -24,18 +25,21 @@ public class LoginService {
             result.put("error_msg","잘못된 값이 입력되었습니다.");
         }
 
-        int queryResult=0;
+        LoginResultDTO loginResult=null;
         // 아이디 값에 '@' 문자가 들어가 있는지 확인하고 로그인 종류를 구분하여 처리
         if(loginData.getUserId().indexOf("@")==-1){
-            queryResult=dao.tryLogin(0, loginData);
+            // queryResult=dao.tryLogin(0, loginData);
+            loginResult=dao.loginIdCheck(loginData);
         }else{
-            queryResult=dao.tryLogin(1,loginData);
+            // queryResult=dao.tryLogin(1,loginData);
+            loginResult=dao.loginEmailCheck(loginData);
         }
 
         // 로그인 실행 질의 결과가 true인 경우, 결과를 success로 분류
-        if(queryResult!=0){
+        if(loginResult!=null){
             result.put("result","success");
-            result.put("memberId",Integer.toString(queryResult));
+            result.put("memberId",loginResult.getMemberId().toString());
+            result.put("nickname",loginResult.getNickname());
         // 로그인에 실패한 경우, 결과를 error로 분류하고, 상세 오류 정보를 함께 삽입
         }else{
             result.put("result","error");

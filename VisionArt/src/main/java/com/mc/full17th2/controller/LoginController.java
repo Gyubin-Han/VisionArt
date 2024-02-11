@@ -44,6 +44,7 @@ public class LoginController {
         if(result_code.equals("success")){
             HttpSession session=request.getSession();
             session.setAttribute("memberId",result.get("memberId"));
+            session.setAttribute("nickname",result.get("nickname"));
         }
 
         return result;
@@ -51,11 +52,6 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request){
-        HttpSession session=request.getSession();
-
-        if(session.getAttribute("memberId")!=null){
-            session.setAttribute("memberId",null);
-        }
         return "logout";
     }
 

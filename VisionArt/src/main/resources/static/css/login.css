@@ -4,7 +4,8 @@
     display: flex;
     align-items: center; /* 가로 방향에서 중앙 정렬 */
     justify-content: center; /* 세로 방향에서 중앙 정렬 */
-    height: 80vh; /* 뷰포트 높이에 대한 100% 설정으로 세로 중앙 정렬 */
+    margin:50px 0;
+    /* height: 80vh; /* 뷰포트 높이에 대한 100% 설정으로 세로 중앙 정렬 */
 }
 
 .container_box {
@@ -26,14 +27,15 @@
 	margin-bottom: 20px;
 }
 
-input:not([type="submit"]) {
+.container input:not([type="submit"]) {
   font-size: 15px;
   color: #222222;
   width: 300px;
   border: none;
   border-bottom: solid #aaaaaa 1px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  /* padding-bottom: 10px;
+  padding-left: 10px; */
+  padding:15px;
   position: relative;
   background: none;
   z-index: 5;
@@ -46,7 +48,9 @@ input:not([type="submit"]) {
     border: none;
     cursor: pointer;
     margin-bottom: 30px;
-    
+    width:80%;
+    padding:13px;
+    font-size:medium;
 }
 
   .signup{
