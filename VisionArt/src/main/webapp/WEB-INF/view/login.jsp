@@ -30,10 +30,10 @@ else{ %>
 		</div> 
 		<div class="member_info">
 			<div>
-				<input class="member_id" placeholder="아이디" type="text">
+				<input id="member_id" placeholder="아이디" type="text">
 			</div>
 			<div>
-				<input class="member_pw" placeholder="비밀번호" type="password">
+				<input id="member_pw" placeholder="비밀번호" type="password">
 			</div>
 		</div>
 		<!-- <input id="login_button" type="submit" value="로그인"> -->
