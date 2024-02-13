@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+.container {
+    display: flex;
+    align-items: center; /* 가로 방향에서 중앙 정렬 */
+    justify-content: center; /* 세로 방향에서 중앙 정렬 */
+    margin:50px 0;
+    /* height: 80vh; /* 뷰포트 높이에 대한 100% 설정으로 세로 중앙 정렬 */
+}
+
+.container_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가로 방향에서 중앙 정렬 */
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.member_info {
+    padding: 20px;
+    margin: 20px;
+}
+
+.member_id, .member_pw{
+	margin-bottom: 20px;
+}
+
+.container input:not([type="submit"]) {
+  font-size: 15px;
+  color: #222222;
+  width: 300px;
+  border: none;
+  border-bottom: solid #aaaaaa 1px;
+  /* padding-bottom: 10px;
+  padding-left: 10px; */
+  padding:15px;
+  position: relative;
+  background: none;
+  z-index: 5;
+}
+
+/* input[type="submit"] { */
+#login_button{
+	background-color: #BDDEF4;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 30px;
+    width:80%;
+    padding:13px;
+    font-size:medium;
+}
+
+  .signup{
+    display: flex;
+  }
+
+  .divideline{
+    margin: 5px 10px 0px 10px;
+    width: 1px;
+    height: 12px;
+    background: #d5dbe2;
+    
+  }

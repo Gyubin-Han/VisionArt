@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+    <!-- <select id="a" resultMap="" parameterType="com.mc.패키지명.클래스명"></select> -->
+
+    <!-- 사용자 로그인 ID를 기준으로 로그인 검증하는 select -->
+    <select id="loginIdCheck" parameterType="com.mc.full17th2.dto.LoginDTO" resultType="Integer">
+        <![CDATA[ 
+            SELECT member_id FROM member WHERE id=#{userId} AND password=#{userPassword};
+        ]]>
+    </select>
+    <!-- 사용자 Email을 기준으로 로그인 검증하는 select -->
+    <select id="loginEmailCheck" parameterType="com.mc.full17th2.dto.LoginDTO" resultType="int">
+        <![CDATA[ 
+            SELECT member_id FROM member WHERE email=#{userId} AND password=#{userPassword};
+        ]]>
+    </select>
+
+    <!-- 회원가입, 정보 수정 시 입력한 로그인 ID가 이미 존재하는지 확인하는 select -->
+    <select id="userIdExistsheck" parameterType="java.lang.String" resultType="int">
+        <![CDATA[ 
+            SELECT COUNT(*) FROM member WHERE id=#{id};
+        ]]>
+    </select>
+    <!-- 회원가입, 정보 수정 시 입력한 Email이 이미 존재하는지 확인하는 select -->
+    <select id="userEmailExistCheck" parameterType="java.lang.String" resultType="int">
+        <![CDATA[ 
+            SELECT COUNT(*) FROM member WHERE email=#{email};
+        ]]>
+    </select>
+
+    <!-- 회원가입 - 입력한 사용자 정보를 저장하는 insert -->
+    <insert id="registerMember" parameterType="com.mc.full17th2.dto.MemberDTO">
+        <![CDATA[
+            INSERT INTO member VALUES(
+                #{id},
+                #{email},
+                #{password},
+                NOW(),
+                #{birthdate},
+                #{nickname},
+                #{is_admin},
+                #{artist_id},
+                #{art_field_id}
+            );
+        ]]>
+    </insert>
+    
+    <!-- 정보 수정 - 사용자가 입력한 정보대로 사용자의 정보를 수정하는 update -->
+    <update id="editMember" parameterType="com.mc.full17th2.dto.MemberDTO">
+        <![CDATA[ 
+            UPDATE member
+                SET id=#{id},
+                    email=#{email},
+                    password=#{password},
+                    signup_date=#{signup_date},
+                    birthdate=#{birthdate},
+                    nickname=#{nickname},
+                    is_admin=#{is_admin},
+                    artist_id=#{artist_id},
+                    art_field_id=#{art_field_id}
+                WHERE member_id=#{member_id};
+        ]]>
+    </update>
+    <!-- 정보 수정을 위해 원래의 데이터를 조회하는 select -->
+    <select id="getMemberData" parameterType="int" resultType="com.mc.full17th2.dto.MemberDTO">
+        <![CDATA[ 
+            SELECT id,email,nickname,artist_id,art_field_id FROM member WHERE member_id=#{memberId};
+        ]]>
+    </select>
+    <!-- 정보 수정 시 사용자의 현재 비밀번호를 입력받아 확인하는 select -->
+    <select id="checkCurrentPassword" parameterType="com.mc.full17th2.dto.MyPageCheckCurrentPasswordDTO" resultType="int">
+        <![CDATA[
+            SELECT * FROM member WHERE member_id=#{memberId} AND password=#{password};
+        ]]>
+    </select>
+</mapper>

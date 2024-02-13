@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+footer{
+	width:100%;
+	height:60px;
+	position: relative;
+	transform: translateY(0%);
+	bottom: 0;
+	padding-bottom:5%;
+	border-top: black;
+	padding: 0% 20% 0% 20%;
+}
+
+.divideline{
+  width: 100%;
+  height: 1px;
+  background: #d5dbe2;
+  
+}
+
+.footer_contents {
+	margin: 10px 0px 10px 10px;
+}
