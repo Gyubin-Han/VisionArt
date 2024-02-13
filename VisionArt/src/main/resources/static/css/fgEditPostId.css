@@ -1,0 +1,105 @@
+#posth2 {
+    color: #1d242b;
+    text-align: center;
+}
+
+.post {
+    margin: 50px auto;
+    position: auto;
+    top: 20%;
+    align-self: center;
+    width: 650px;
+    padding: 50px;
+    border-radius: 30px;
+    background-color: #c7eeff;
+}
+
+.post .p {
+    padding-left: 90px;
+    font-weight: bold;
+}
+
+.post input[type="text"], 
+.post textarea, 
+.post .note-editor.note-frame {
+    width: 70%;
+    margin-left: 90px;
+    border: 2px solid;
+}
+
+.post textarea {
+    height: 300px;
+    resize: none;
+}
+
+.buttons-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.buttons-container button {
+    margin: 0 10px;
+}
+    
+input[type="file"] {
+background-color: white; /* 배경색을 흰색으로 설정합니다 */
+border: 1px solid #ddd ; /* 버튼 테두리 추가 */
+margin-left: 90px;
+
+}
+
+
+.input[type="text"],
+.input[type="file"] {
+width: 300px; /* 입력 필드의 너비를 300px로 설정 */
+padding: 5px; /* 안쪽 여백 추가 */
+border: 1px solid #ddd; /* 테두리 추가 */
+border-radius: 4px; /* 테두리 둥글게 처리 */
+margin-right: 10px; /* 입력 필드와 버튼 사이의 간격을 추가합니다 */
+height: 34px; /* 입력 필드의 높이를 조정합니다 (부트스트랩과 일치시키기 위함) */
+}
+
+.form-group {
+margin-bottom: 20px;
+}
+
+.form-group input[type="text"], .form-group input[type="file"] {
+/* width: 300px; */
+width:70%;
+padding: 5px;
+border: 1px solid #ddd;
+border-radius: 4px;
+height: 34px;
+}
+
+.btn-custom {
+background-color: #007bff;
+border-color: #007bff;
+color: white;
+padding: 5px 10px;
+border-radius: 4px;
+cursor: pointer;
+}
+
+/* 숨김 처리를 위한 스타일 (필요한 경우) */
+.hidden-label {
+display: none;
+}
+
+
+
+.half-width input[type="text"] {
+width: 150px; 
+}
+
+.full-width input[type="text"],
+.full-width .form-control {
+width: 70%;  
+}
+.form-group1{
+margin-top: 20px; 
+}
+.btn-custom {
+
+height: 34px; 
+}

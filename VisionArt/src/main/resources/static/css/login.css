@@ -23,7 +23,7 @@
     margin: 20px;
 }
 
-.member_id, .member_pw{
+#member_id, #member_pw{
 	margin-bottom: 20px;
 }
 
