@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mc.full17th2.dao.FamousGallaryDAO">
+    <resultMap id="famousGallaryDto" type="com.mc.full17th2.dto.FamousGallaryDTO">
+        <result property="postId" column="post_id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="artFieldId" column="art_field_id"/>
+        <result property="artFieldName" column="art_field_name"/>
+        <result property="artistId" column="artist_id"/>
+        <result property="artistName" column="artist_name"/>
+        <result property="postDatetime" column="post_datetime"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="views" column="views"/>
+        <result property="likes" column="likes"/>
+        <result property="postAttPath" column="post_att_path"/>
+    </resultMap>
+    <resultMap id="commentDto" type="com.mc.full17th2.dto.CommentDTO">
+        <result property="commentId" column="comment_id"/>
+        <result property="commentDatetime" column="comment_datetime"/>
+        <result property="commentContent" column="comment_content"/>
+        <result property="memberId" column="member_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="postId" column="post_id"/>
+    </resultMap>
+
+    <!-- 불러오는 전체 데이터 개수 -->
+    <select id="getAllFamousGallaryPostCount">
+        <![CDATA[ 
+            SELECT COUNT(*) FROM post WHERE post_field_id=2;
+        ]]>
+    </select>
+
+    <!-- 명화갤러리 글 목록 -->
+    <select id="getListFamousGallaryPosts" resultMap="famousGallaryDto">
+        <![CDATA[ 
+        SELECT post.post_id, post.art_field_id, art_field_name, post_datetime, title, post_att_path
+            FROM post
+            LEFT JOIN art_field af ON post.art_field_id=af.art_field_id
+            LEFT JOIN post_attachment pa ON post.post_id=pa.post_id
+            WHERE post.post_field_id=2
+            ORDER BY post_id DESC
+            LIMIT #{start}, #{limit};
+        ]]>
+    </select>
+
+    <!-- 글 상세 내용 -->
+    <select id="getFamousGallaryPost" resultMap="famousGallaryDto">
+        <![CDATA[
+        SELECT post.post_id, art_field_name, post.art_field_id, post_datetime, title, content, views, post_att_path, artist_name, fg.artist_id, post.member_id, nickname
+            FROM post
+            LEFT JOIN art_field af ON post.art_field_id=af.art_field_id
+            LEFT JOIN famous_gallary fg ON post.post_id=fg.post_id
+            LEFT JOIN artist at ON fg.artist_id=at.artist_id
+            LEFT JOIN post_attachment pa ON post.post_id=pa.post_id
+            LEFT JOIN member ON post.member_id=member.member_id
+            WHERE post.post_id=#{postId};
+        ]]>
+    </select>
+
+    <!-- 글 좋아요 표시 수 조회 -->
+    <select id="getFamousGallaryPostLikes" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*) AS likes FROM post_like WHERE post_id=#{postId};
+        ]]>
+    </select>
+
+    <!-- 글 내 댓글들 -->
+    <select id="getFamousGallaryComments" resultMap="commentDto">
+        <![CDATA[
+        SELECT comment_id, comments.member_id, nickname, comment_datetime, comment_content
+            FROM comments
+            LEFT JOIN member ON comments.member_id=member.member_id
+            WHERE post_id=#{postId}
+            ORDER BY comment_id DESC;
+        ]]>
+    </select>
+
+    <!-- 조회수 증가 -->
+    <update id="updatePostView">
+        <![CDATA[
+        UPDATE post SET views=#{views} WHERE post_id=#{postId};
+        ]]>
+    </update>
+
+    <!-- 글 작성 - 일반 작성 내용 등록 -->
+    <insert id="insertFamousGallaryPost" useGeneratedKeys="true">
+        <!-- 등록 직후 해당 데이터의 id 값(key 값)을 얻어 옴. -->
+        <selectKey resultType="int" keyProperty="postId" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+
+        <![CDATA[
+        INSERT INTO post(member_id,post_field_id,art_field_id,title,content)
+            VALUES(
+                #{memberId},
+                2,
+                #{artFieldId},
+                #{title},
+                #{content}
+            );
+        ]]>
+    </insert>
+    <!-- 글 작성 - 명화갤러리 내용 등록 -->
+    <insert id="insertFamousGallaryInformation">
+        <![CDATA[
+        INSERT INTO famous_gallary
+            VALUES(
+                #{postId},
+                #{artistId},
+                #{artFieldId}
+            );
+        ]]>
+    </insert>
+    <!-- 글 작성 - 첨부 이미지 파일 등록 -->
+    <insert id="insertFamousGallaryFile">
+        <![CDATA[
+        INSERT INTO post_attachment(post_id,post_att_path)
+            VALUES(
+                #{postId},
+                #{postAttPath}
+            );
+        ]]>
+    </insert>
+
+    <!-- 글 수정 - 일반 작성 내용 수정 -->
+    <update id="updateFamousGallaryPost">
+        <![CDATA[
+        UPDATE post SET art_field_id=#{artFieldId}, title=#{title}, content=#{content} WHERE post_id=#{postId};
+        ]]>
+    </update>
+    <!-- 글 수정 - 명화갤러리 내용 수정 -->
+    <update id="updateFamousGallaryInformation">
+        <![CDATA[
+        UPDATE famous_gallary SET artist_id=#{artistId}, art_field_id=#{artFieldId} WHERE post_id=#{postId};
+        ]]>
+    </update>
+
+    <!-- 글 삭제 -->
+    <delete id="deleteFamousGallaryPost">
+        <![CDATA[
+        DELETE FROM post WHERE post_id=#{postId} AND member_id=#{memberId};
+        ]]>
+    </delete>
+    <delete id="deleteFamousGallaryInformation">
+        <![CDATA[
+        DELETE FROM famous_gallary WHERE post_id=#{postId};
+        ]]>
+    </delete>
+    <delete id="deleteFamousGallaryAllComments">
+        <![CDATA[ 
+        DELETE FROM comments WHERE post_id=#{postId};
+        ]]>
+    </delete>
+    <delete id="deleteFamousGallaryFile">
+        <![CDATA[
+        DELETE FROM post_attachment WHERE post_id=#{postId};
+        ]]>
+    </delete>
+    <delete id="deleteFamousGallaryLikes">
+        <![CDATA[ 
+        DELETE FROM post_like WHERE post_id=#{postId};
+        ]]>
+    </delete>
+
+    <!-- 댓글 등록 -->
+    <insert id="insertFamousGallaryComment" useGeneratedKeys="true">
+        <selectKey resultType="int" keyProperty="commentId" order="AFTER">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+        <![CDATA[
+        INSERT INTO comments(post_id,member_id,comment_content) VALUES(#{postId},#{memberId},#{commentContent});
+        ]]>
+    </insert>
+    <!-- 특정 댓글 삭제 -->
+    <delete id="deleteFamousGallaryComment">
+        <![CDATA[
+        DELETE FROM comments WHERE comment_id=#{commentId} AND member_id=#{memberId};
+        ]]>
+    </delete>
+    <!-- 특정 댓글 조회 -->
+    <select id="getFamousGallaryComment" resultMap="commentDto">
+        <![CDATA[
+        SELECT * FROM comments;
+        ]]>
+    </select>
+
+    <!-- 사용자 별 좋아요 조회 -->
+    <select id="getFamousGallaryMemberLike" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*) FROM post_like WHERE post_id=#{postId} AND member_id=#{memberId};
+        ]]>
+    </select>
+    <!-- 좋아요 추가 -->
+    <insert id="insertFamousGallaryLike">
+        <![CDATA[
+        INSERT INTO post_like VALUES(#{postId},#{memberId});
+        ]]>
+    </insert>
+    <!-- 좋아요 취소(삭제) -->
+    <delete id="deleteFamousGallaryLike">
+        <![CDATA[
+        DELETE FROM post_like WHERE post_id=#{postId} AND member_id=#{memberId};
+        ]]>
+    </delete>
+</mapper>
