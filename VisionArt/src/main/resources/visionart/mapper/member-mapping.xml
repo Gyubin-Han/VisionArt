@@ -88,4 +88,10 @@
             SELECT COUNT(*) FROM member WHERE member_id=#{memberId} AND password=#{password};
         ]]>
     </select>
+    <!-- 관리자 회원 여부 확인하는 select -->
+    <select id="isAdmin" resultType="int">
+        <![CDATA[
+            SELECT COUNT(*) FROM member WHERE member_id=#{memberId} AND is_admin=TRUE;
+        ]]>
+    </select>
 </mapper>

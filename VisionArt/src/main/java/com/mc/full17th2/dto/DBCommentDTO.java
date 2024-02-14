@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Component
-public class CommentDTO {
+public class DBCommentDTO {
     int commentId;
     LocalDateTime commentDatetime;
     String commentContent;

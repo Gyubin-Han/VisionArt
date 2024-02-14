@@ -8,13 +8,14 @@ import lombok.Data;
 
 @Data
 @Component
-public class PostDTO {
-    int post_id;
-    LocalDateTime post_datetime;
+public class DBPostDTO {
+    int postId;
+    LocalDateTime postDatetime;
     String title;
     String content;
     int views;
-    int member_id;
-    int post_field_id;
-    int art_field_id;
+    int memberId;
+    int postFieldId;
+    int artFieldId;
+    String nickname;
 }

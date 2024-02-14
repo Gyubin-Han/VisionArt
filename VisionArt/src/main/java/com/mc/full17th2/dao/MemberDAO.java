@@ -21,4 +21,5 @@ public interface MemberDAO {
     int editMember(MemberDTO data);
     MemberDTO getMemberData(int memberId);
     int checkCurrentPassword(MyPageCheckCurrentPasswordDTO data);
+    int isAdmin(int memberId);
 }
